@@ -1,0 +1,115 @@
+<html>
+<head>
+<title> Local Weather</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+<style>
+.container-fluid{
+background:url("http://thebiharpost.com/wp-content/uploads/2016/06/lighteniing-1.jpg");
+margin-top:-40px;
+padding:10px;}
+.qoute p{
+text-align:right;
+font-weight:bold;
+font-size:23px;}
+.j1,.j2,.j3{
+font-style:italic;
+
+color:white;}
+.cl{
+background:rgba(0,0,0,0.8);
+color:white;
+padding:20px 20px 120px 40px !important;
+}
+.rounded{
+border-radius:10px;}
+
+.cl1 {
+background:transparent;
+color:white;
+font-weight:bold;
+padding-bottom:20px;}
+.j12,.j123{
+background-color:rgba(55,55,55,0.4) !important;
+text-align:center;
+v-align:middle;}
+.di{
+display:none;}
+.r1{
+margin:60px;}</style>
+</head>
+<body>
+<div class="jumbotron jumbotron-fluid cl">
+<div class="container">
+<img src="http://bartelso.weebly.com/uploads/2/9/4/6/29464495/inclement-weather-450_orig.png" class="float-right img-fluid">
+ <h1>Local Weather </h1>
+ <h3><q>You are the sky. Everything else – it’s just the weather.</q></h3></div>
+</div>
+<div class="container-fluid">
+
+<div class="row r1">
+
+<div class="col-lg-4  jumbotron j12 cl1"><div class="j1"><h1 class="align-middle">City Name</h1></div></div>
+<div class= "col-lg-4 jumbotron j123 cl1"><div class="j2"><h1>Temperature
+
+
+
+</h1></div><button class="btn-primary btn rounded b1"> Fahrenheit(°F)</button>
+  <button class="btn-primary b2 btn rounded di"> Celius(℃)</button><h4></h4></div>
+  
+<div class="col-lg-4 jumbotron j12 cl1"><div class="j3"><h1>Near by view</h2></div></div>
+</div></div>
+<script>
+
+$(document).ready(function(){
+
+   var lon;
+   var lat;
+   if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+      lat=position.coords.latitude; 
+	  lon=position.coords.longitude;
+    var img = document.createElement("IMG");
+	  var k = document.createElement("IMG");
+	  k.src = "https://maps.googleapis.com/maps/api/streetview?size=300x200&location="+lat+","+lon+"&heading=10&pitch=2&scale=&key=AIzaSyBqR-EH0NNssAZlvsUsqSgzLeS7jCEXK-w";
+  
+   
+  $.getJSON("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=0532906f6541345806e7d2d9a11d6836", function(a) {
+  $(".j1").append(" <br><h4> "+a.name+"</h4>")
+  img.src="https://openweathermap.org/img/w/"+a.weather[0].icon+".png";
+  
+  $(".j2").append(img)
+ 
+  $(".j2").append("<h3>"+(a.main.temp-273).toFixed(2)+"°C</h3>")
+ $(".j123 h4").append("<h4>Humidity:"+a.main.humidity+"%</h4><h4>Wind:"+a.wind.speed+"Km/hr</h4>")
+  $(".j3").append(k)
+  $(".b1").click(function(){
+    var f=((a.main.temp-273)*1.8+32).toFixed(2);
+    $(".j2 h3").html(f+"°F").delay()
+     $(".b1").hide(500)	
+	   $(".b2").show(500) 
+  });
+  $(".b2").click(function(){
+    var f=((a.main.temp-273)).toFixed(2);
+    $(".j2 h3").html(f+"°C").delay(400)
+     $(".b2").hide(500)
+     $(".b1").show(500)	 
+  });
+  
+});
+ 
+});
+}
+
+
+/*AIzaSyCMlR6u_1n1nvEXH7rw6BpLhS_Rb7Agv8k*/
+});
+</script>
